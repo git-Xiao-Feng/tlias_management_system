@@ -1,0 +1,40 @@
+# ========== 依赖与构建产物 ==========
+node_modules/       # 包管理工具（npm/yarn/pnpm）下载的依赖，无需版本控制
+**/node_modules/
+dist/               # 打包输出目录（如Vite/Webpack构建产物）
+build/              # 部分构建工具的输出目录
+.out/
+.cache/             # 构建缓存目录
+
+# ========== 环境与敏感文件 ==========
+.env                # 环境变量文件（可能含密钥等敏感信息）
+.env.local          # 本地专属环境变量
+.env.*.local        # 特定环境的本地变量
+*.log               # 各类日志文件
+logs/               # 日志目录
+
+# ========== 编辑器/IDE 配置 ==========
+.idea/              # IntelliJ IDEA 配置目录
+.vscode/            # VS Code 配置目录
+
+# ========== 系统与临时文件 ==========
+.DS_Store           # macOS 系统文件
+npm-debug.log*      # npm 调试日志
+yarn-debug.log*     # yarn 调试日志
+pnpm-debug.log*     # pnpm 调试日志
+
+# ========== 生成文件与缓存 ==========
+*.js.map            # JavaScript Source Map 文件
+*.css.map           # CSS Source Map 文件
+.sass-cache/        # Sass 编译缓存
+
+# ========== 测试与覆盖率 ==========
+coverage/           # 测试覆盖率报告目录
+.nyc_output/        # 测试输出目录
+
+# ========== 包管理器锁定文件（可选调整） ==========
+# 若项目是「应用」（需依赖版本严格一致），建议不忽略以下锁定文件：
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+# 若项目是「开源库」（需兼容更多依赖版本），可保留忽略。
