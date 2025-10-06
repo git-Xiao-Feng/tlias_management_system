@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itheima.mapper.EmpsMapper">
+
+<!--    新增员工信息-->
+    <insert id="addEmp" parameterType="com.itheima.pojo.Emps" useGeneratedKeys="true" keyProperty="id">
+        insert into emp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="name != null">name,</if>
+            <if test="gender != null">gender,</if>
+            <if test="phone != null">phone,</if>
+            <if test="job != null">job,</if>
+            <if test="salary != null">salary,</if>
+            <if test="image != null">image,</if>
+            <if test="entryDate != null">entry_date,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="name != null">#{name},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="job != null">#{job},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="image != null">#{image},</if>
+            <if test="entryDate != null">#{entryDate},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+<!--    新增员工工作经历-->
+    <insert id="addEmpExpr" parameterType="java.util.List">
+        insert into emp_expr (emp_id, begin, end, company, job)
+        VALUES
+        <foreach collection="list" item="expr" separator=",">
+            (#{expr.empId}, #{expr.begin}, #{expr.end}, #{expr.company}, #{expr.job})
+        </foreach>
+    </insert>
+    <update id="updateEmp" parameterType="com.itheima.pojo.Emps">
+        update emp
+        <set>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="job != null">job = #{job},</if>
+            <if test="salary != null and salary != ''">salary = #{salary},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="entryDate != null">entry_date = #{entryDate},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <!--    根据ID删除员工信息和工作经历-->
+    <delete id="deleteById" parameterType="java.util.List">
+        delete from emp where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+<!--    根据ID删除员工工作经历-->
+    <delete id="deleteEmpExpr" parameterType="java.util.List">
+        delete from emp_expr where emp_id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- SQL映射语句 -->
+
+<!--    根据条件查询员工列表-->
+    <select id="queryEmpsList" resultType="com.itheima.pojo.Emps">
+        select emp.*,dept.name deptName from emp left join dept on emp.dept_id = dept.id
+        <where>
+            <if test="name != null and name != ''">
+                and emp.name like concat('%',#{name},'%')
+            </if>
+            <if test="gender != null">
+                and emp.gender = #{gender}
+            </if>
+            <if test="begin != null and end != null">
+                and emp.entry_date between #{begin} and #{end}
+            </if>
+        </where>
+    </select>
+</mapper>
