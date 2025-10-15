@@ -5,13 +5,21 @@ import Dept3 from '@/views/dept3/index.vue'
 import Index from '@/views/index1/index.vue'
 import Staff3 from '@/views/staff3/index.vue'
 import Stu2 from '@/views/stu2/index.vue'
+import Emp4 from '@/views/emp4/index.vue'
+import Stu4 from '@/views/stu4/index.vue'
+import login from '@/views/login/index.vue'
 import { reactive } from 'vue'
 // 可以添加其他页面组件
 // import Home from '@/views/Home.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/', 
+    name: 'Login', 
+    component: login
+  },
+{
+    path: '/layout',
     name: 'layout',
     component: layout,
     redirect: '/index1',
@@ -20,7 +28,9 @@ const routes = [
     {path: '/dept3', name: 'Dept3', component: Dept3},
     {path: '/index1', name: 'Index1', component: Index},
     {path: '/staff3', name: 'Staff3', component: Staff3},
-    {path: '/stu2', name: 'Stu2', component: Stu2}
+    {path: '/stu2', name: 'Stu2', component: Stu2},
+    {path: '/emp4', name: 'Emp4', component: Emp4},
+    {path: '/stu4', name: 'Stu4', component: Stu4}
     ]
   },
   

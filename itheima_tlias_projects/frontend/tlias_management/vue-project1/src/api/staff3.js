@@ -24,5 +24,5 @@ export const updateStaff = (emp) => {
 
 // 批量删除员工
 export const DeleteStaff = (ids) => {
-  return request.delete(`/emps?ids=${ids}`)
+  return request.delete(`/emps?ids=${ids}`)   
 }
