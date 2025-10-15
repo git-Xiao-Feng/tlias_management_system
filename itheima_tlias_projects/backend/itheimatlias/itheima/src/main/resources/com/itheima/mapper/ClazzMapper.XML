@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.ClazzMapper">
+
+    <select id="findClazzAll" resultType="com.itheima.pojo.Clazz">
+        select
+            c.id, c.name, c.room, c.begin_date beginDate, c.end_date endDate,
+            c.master_id masterId, c.subject, c.create_time createTime, c.update_time updateTime, e.name masterName
+        from clazz c left join emp e on c.master_id = e.id
+        <where>
+            <if test="name != null and name != ''">
+                and c.name like concat('%',#{name},'%')
+            </if>
+            <if test="begin != null and end != null">
+                and c.begin_date between #{begin} and #{end}
+            </if>
+        </where>
+    </select>
+</mapper>

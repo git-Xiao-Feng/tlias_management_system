@@ -17,6 +17,7 @@ public class DeptController {
     @Autowired
     private DeptService deptService;
 
+    // 查询所有部门
     @GetMapping
     public Result list(){
 
@@ -25,12 +26,16 @@ public class DeptController {
 
     }
 
+
+    // 根据ID查询部门
     @GetMapping("/{id}")
     public Result get(@PathVariable("id") Integer id){
         Dept dept = deptService.getById(id);
         return Result.success(dept);
     }
 
+
+    // 删除部门
     @DeleteMapping
     public Result delete(@RequestParam(value = "id",required = false) Integer id){
         try {
@@ -47,11 +52,15 @@ public class DeptController {
     }
 
 
+
+    // 新增部门
     @PostMapping
     public Result add(@RequestBody Dept dept){
         deptService.add(dept);
         return Result.success();
     }
+
+    // 修改部门
     @PutMapping
     public Result update(@RequestBody Dept dept){
         //输出到控制台
