@@ -277,6 +277,7 @@ const deleteByIds = () => {
   })
 }
 
+<<<<<<< HEAD
 const deductVioScore = ref('')      // 扣分分数
 const studentId = ref('')            // 违纪的学员id
 const dialogViolationVisible = ref(false)   // 违纪信息对话框显示隐藏
@@ -304,6 +305,9 @@ const cancelViolation = () => {
   dialogViolationVisible.value = false
   
 }
+=======
+
+>>>>>>> 1835923879e3ccaf4295a3cfe36a67f24abf2077
 
 
 
@@ -379,10 +383,16 @@ const cancelViolation = () => {
     <el-table-column property="violationCount" label="violationCount" width="150"/>
     <el-table-column property="violationScore" label="violationScore" />
     <el-table-column property="updateTime" label="updateTime" />
+<<<<<<< HEAD
     <el-table-column label="operation" width="200">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.row.id)">Edit</el-button>
           <el-button size="small" @click="handleViolation(scope.row.id)">违纪</el-button>
+=======
+    <el-table-column label="operation" width="180">
+        <template #default="scope">
+          <el-button size="small" @click="handleEdit(scope.row.id)">Edit</el-button>
+>>>>>>> 1835923879e3ccaf4295a3cfe36a67f24abf2077
           <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">Delete</el-button>
         </template>
     </el-table-column>
@@ -524,6 +534,7 @@ const cancelViolation = () => {
       </div>
     </template>
   </el-dialog>
+<<<<<<< HEAD
 
   <!-- 违纪扣分对话框 -->
   <el-dialog v-model="dialogViolationVisible" title="违纪扣分" width="500" align-center>
@@ -540,6 +551,8 @@ const cancelViolation = () => {
     </template>
   </el-dialog>
 
+=======
+>>>>>>> 1835923879e3ccaf4295a3cfe36a67f24abf2077
 </template>
 
 

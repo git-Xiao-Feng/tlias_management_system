@@ -26,3 +26,5 @@ export const updateStu = (data) => request.put(`/students`, data)
 
 //违纪扣分
 export const deductScore = (id,score) => request.put(`/students/violation/${id}/${score}`)
+
+//
