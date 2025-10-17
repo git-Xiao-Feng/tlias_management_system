@@ -21,7 +21,7 @@ const onSubmit = async () => {
         router.push('/layout')
     } else {
         console.log(res)
-        ElMessage.error('登录失败')
+        ElMessage.error(res.msg)
     }
 }
 

@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script  setup>
 import {
   Document,
   Menu as IconMenu,
@@ -7,12 +7,40 @@ import {
   HelpFilled,
   Hide,
 } from '@element-plus/icons-vue'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
-const handleOpen = (key: string, keyPath: string[]) => {
+const router = useRouter()
+const loginUser = ref('')
+
+onMounted(() => {
+  const userStr = localStorage.getItem('loginUser')
+  if(userStr){
+    try {
+      loginUser.value = JSON.parse(userStr)
+    } catch (e) {
+      console.error('解析用户信息失败:', e)
+    }
+  }
+  console.log(loginUser.value)
+  if (!loginUser.value) {
+    ElMessage.error('请先登录！')
+    console.log('请先登录！')
+    router.push('/')
+  }
+})
+
+const handleOpen = (key, keyPath) => {
   console.log(key, keyPath)
 }
-const handleClose = (key: string, keyPath: string[]) => {
+const handleClose = (key, keyPath) => {
   console.log(key, keyPath)
+}
+
+const quitLogin = () => { 
+  localStorage.removeItem('loginUser');
+  router.push('/');
 }
 </script>
 
@@ -21,7 +49,12 @@ const handleClose = (key: string, keyPath: string[]) => {
     <div class="common-layout">
     <el-container style="height: 100vh;">
       <!-- header -->
-      <el-header class="header"><span id="tlias-management">tlias-management </span></el-header>   
+      <el-header class="header">
+        
+        <span id="tlias-management">tlias-management </span>
+        <el-button type="primary" class="logout" @click="quitLogin()">退出登录【{{loginUser.username}}】</el-button>
+        
+      </el-header>   
 
       <!-- aside -->
       <el-container>
@@ -86,7 +119,24 @@ const handleClose = (key: string, keyPath: string[]) => {
   </div>
 </template>
 
+<style>
+/* 或者更通用的方法，禁用所有非输入元素的焦点 */
+*:not(input):not(textarea) {
+  outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+</style>
+
 <style scoped>
+/* .logout {
+  margin-left: auto;
+} */
+
+
+
 #tlias-management {
   color: white;
   font-size: 45px;
@@ -107,6 +157,7 @@ const handleClose = (key: string, keyPath: string[]) => {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .aside {

@@ -1,7 +1,7 @@
 <script setup>
 import { ElMessage , ElMessageBox} from 'element-plus'
 import { ref , onMounted , watch} from 'vue'
-import { getStuList,getStuOne,addStu,updateStu,deleteStu} from '@/api/stu2'
+import { getStuList,getStuOne,addStu,updateStu,deleteStu,deductScore} from '@/api/stu2'
 import { getClazzList } from '@/api/clazz2'
 
 // 查询表单数据
@@ -277,7 +277,33 @@ const deleteByIds = () => {
   })
 }
 
-
+const deductVioScore = ref('')      // 扣分分数
+const studentId = ref('')            // 违纪的学员id
+const dialogViolationVisible = ref(false)   // 违纪信息对话框显示隐藏
+// 违纪按钮
+const handleViolation = (id) => {
+  dialogViolationVisible.value = true
+  deductVioScore.value = ''
+  studentId.value = id
+  
+}
+// 确认扣分按钮
+const confirmViolation = async () => {
+  dialogViolationVisible.value = false
+  const result = await deductScore(studentId.value,deductVioScore.value);
+  if(result.code){
+    ElMessage.success('扣分成功');
+    dialogViolationVisible.value = false;
+    onSubmit();
+  }else{
+    ElMessage.error(result.msg);
+  }
+}
+// 取消扣分对话框按钮
+const cancelViolation = () => {
+  dialogViolationVisible.value = false
+  
+}
 
 
 
@@ -353,9 +379,10 @@ const deleteByIds = () => {
     <el-table-column property="violationCount" label="violationCount" width="150"/>
     <el-table-column property="violationScore" label="violationScore" />
     <el-table-column property="updateTime" label="updateTime" />
-    <el-table-column label="operation" width="180">
+    <el-table-column label="operation" width="200">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.row.id)">Edit</el-button>
+          <el-button size="small" @click="handleViolation(scope.row.id)">违纪</el-button>
           <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">Delete</el-button>
         </template>
     </el-table-column>
@@ -497,6 +524,22 @@ const deleteByIds = () => {
       </div>
     </template>
   </el-dialog>
+
+  <!-- 违纪扣分对话框 -->
+  <el-dialog v-model="dialogViolationVisible" title="违纪扣分" width="500" align-center>
+    <el-form-item label="违纪扣分" prop="score">
+        <el-input v-model="deductVioScore" placeholder="请输入违纪扣分"></el-input>
+      </el-form-item>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="cancelViolation()">Cancel</el-button>
+        <el-button type="primary" @click="confirmViolation()">
+          Confirm
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
+
 </template>
 
 
